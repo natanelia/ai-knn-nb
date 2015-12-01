@@ -6,11 +6,17 @@
 package com.ai_learning.view;
 
 import com.ai_learning.App;
+import com.ai_learning.KNN;
+import com.ai_learning.NB;
+import com.ai_learning.data.DataFrame;
+import com.ai_learning.data.parser.Parser;
+import com.ai_learning.model.validator.CrossValidator;
 import java.awt.CardLayout;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
@@ -22,7 +28,9 @@ import javax.swing.SwingUtilities;
 public class MainPage extends javax.swing.JFrame {
     private static final int CARD_KNN = 0;
     private static final int CARD_NB = 1;
+    private String method;
     private int activeCard = CARD_KNN;
+    private PrintStream standardOut;
     /**
      * Creates new form MainPage
      */
@@ -62,6 +70,19 @@ public class MainPage extends javax.swing.JFrame {
             write (new byte [] {(byte)b}, 0, 1);
         }
     }
+    
+    private void printMatrix(JTextArea area, Integer[][] matrix, ArrayList<String> classes) {
+        for (int i=0; i < classes.size(); i++) {
+            area.append(classes.get(i) + "\t");
+        }
+        area.append("\n");
+        for (int i = 0; i < classes.size(); i++) {
+            for (int j = 0; j < classes.size(); j++) {
+                area.append(matrix[i][j].toString() + "\t");
+            }
+            area.append(" > should be " + classes.get(i) + "\n");
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -76,7 +97,7 @@ public class MainPage extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         txtTrainFile = new javax.swing.JTextField();
         btnOpenFile = new javax.swing.JButton();
-        cmbType = new javax.swing.JComboBox<>();
+        cmbType = new javax.swing.JComboBox<String>();
         btnSubmit = new javax.swing.JButton();
         txtTestFile = new javax.swing.JTextField();
         btnOpenTest = new javax.swing.JButton();
@@ -95,7 +116,6 @@ public class MainPage extends javax.swing.JFrame {
         taNB = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setSize(new java.awt.Dimension(800, 600));
 
         jPanel1.setPreferredSize(new java.awt.Dimension(628, 140));
 
@@ -106,7 +126,12 @@ public class MainPage extends javax.swing.JFrame {
             }
         });
 
-        cmbType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Full Training", "10-Fold" }));
+        cmbType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Full Training", "10-Fold" }));
+        cmbType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbTypeActionPerformed(evt);
+            }
+        });
 
         btnSubmit.setText("Submit");
         btnSubmit.addActionListener(new java.awt.event.ActionListener() {
@@ -286,19 +311,47 @@ public class MainPage extends javax.swing.JFrame {
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fcTrain.getSelectedFile();
             txtTrainFile.setText(selectedFile.getAbsolutePath());
+            
         }
     }//GEN-LAST:event_btnOpenFileActionPerformed
 
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
+        taKNN.setText("");
+        taNB.setText("");
         String algorithm = (activeCard == CARD_KNN) ? "knn" : "nb";
         String trainFile = txtTrainFile.getText();
         String testFile = txtTestFile.getText();
         int target = (int) spnTarget.getValue();
+        int k = (int) jSpinner1.getValue();
+        method = (String) cmbType.getSelectedItem();
+        //PrintStream printStream = new PrintStream(new CustomOutputStream(taKNN));
         
-        JTextAreaOutputStream out = new JTextAreaOutputStream ((activeCard == CARD_KNN) ? taKNN : taNB);
-        App app = new App(out);
-        app.run(algorithm, trainFile, testFile, target);
+        if(algorithm.equals("knn")){
+            App app = new App();
+            app.run(algorithm, trainFile, testFile, k, method);
+            taKNN.append("Relation Name : " + app.getRelationName());
+            taKNN.append("\nInstances : " + app.getInstances());
+            taKNN.append("\nCorrect : " + app.getCorrect());
+            taKNN.append("\n\n\nConfusion Matrix : \n\n");
+            printMatrix(taKNN,app.getConfusionMatrix(),app.getTargetValues());
+         
+            
+        }
         
+        else {
+            App app = new App();
+            app.run(algorithm, trainFile, testFile, target, method);
+            taNB.append("Relation Name : " + app.getRelationName());
+            taNB.append("\nInstances : " + app.getInstances());
+            taNB.append("\nCorrect : " + app.getCorrect());
+            taNB.append("\n\n\nConfusion Matrix : \n\n");
+            printMatrix(taNB,app.getConfusionMatrix(),app.getTargetValues());
+         
+        }
+        
+        //standardOut = System.out;
+        //System.setOut(printStream);
+        //System.setErr(printStream);
     }//GEN-LAST:event_btnSubmitActionPerformed
 
     private void btnOpenTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenTestActionPerformed
@@ -308,6 +361,11 @@ public class MainPage extends javax.swing.JFrame {
             txtTestFile.setText(selectedFile.getAbsolutePath());
         }
     }//GEN-LAST:event_btnOpenTestActionPerformed
+
+    private void cmbTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTypeActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_cmbTypeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -334,6 +392,9 @@ public class MainPage extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MainPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */

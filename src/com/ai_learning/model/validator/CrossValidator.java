@@ -12,15 +12,50 @@ import com.ai_learning.data.*;
 public final class CrossValidator {
     public class Result {
         private ArrayList<Double> accuracies;
+        private ArrayList<String> targetValues;
+        private Integer[][] confMatrix;
         private int size;
-        public Result(int size) {
+        private int attrSize;
+        public Result(int size, int attrSize) {
             this.accuracies = new ArrayList<>();
+            this.confMatrix = new Integer[attrSize][attrSize];
+            for(int i = 0; i < attrSize; i++) {
+                for(int j = 0; j < attrSize; j++) {
+                    confMatrix[i][j] = 0;
+                }
+            }
             this.size = size;
+            this.attrSize = attrSize;
+            this.targetValues = new ArrayList<String>();
         }
-
+        public void setTargetValues(DataFrame dataset) {
+            
+            
+            for (final Instance instance : dataset) {
+            // TAKE CARE OF TARGET VALUES
+            // lazy generate targetValues
+                if (!targetValues.contains(instance.getField(dataset.getClassIndex() - 1))) {
+                    
+                    targetValues.add(instance.getField(dataset.getClassIndex() - 1));
+                }
+               
+            }
+            attrSize = targetValues.size();
+        }
         public void addFold(int correct, int size) {
             double accuracy = (double)correct / (double)size;
             this.accuracies.add(accuracy);
+        }
+        
+        public void addConfusionMatrix(Integer[][] confMatrix) {
+            System.out.println(attrSize);
+            for (int i = 0; i < attrSize; ++i) {
+                for (int j = 0; j < attrSize; ++j) {
+                    System.out.println(this.confMatrix[i][j]);
+                    System.out.println(confMatrix[i][j]);
+                    this.confMatrix[i][j] += confMatrix[i][j];
+                }
+            }
         }
 
         private double getAccuracy() {
@@ -42,6 +77,12 @@ public final class CrossValidator {
 
             stringWriter.write("Accuracy: " + Double.toString(accuracy) + "%");
             
+            for (int i = 0; i < attrSize; i++) {
+                for (int j = 0; j < attrSize; j++) {
+                    System.out.printf("%4d ", confMatrix[i][j]);
+                }
+                System.out.println(" > should be " + this.targetValues.get(i));
+            }
             
             return stringWriter.toString();
         }
@@ -66,6 +107,7 @@ public final class CrossValidator {
     private DataFrame dataset;
     private Model model;
     private Random randomGenerator;
+    private Result result;
 
     public CrossValidator(int k, DataFrame dataset, Model model) {
         this.folds = k;
@@ -118,7 +160,11 @@ public final class CrossValidator {
         int remainders = dataSize % this.folds;
 
         int index = 0;
-        Result result = new Result(dataSize);
+        int attributeSize = dataset.getAttributes().size();
+        
+        result = new Result(dataSize, attributeSize);
+        result.setTargetValues(dataset);
+        //Integer[][] confMatrix = new Integer[attributeSize][attributeSize];
         while (index < dataSize) {
             int startIndex = index, endIndex = index + partitionSize;
             if (remainders > 0) {
@@ -132,13 +178,21 @@ public final class CrossValidator {
             this.model.make(new DataFrame(foldInstances.trainingInstance));
             /* Run model with test dataset and then add result to statistic */
             this.model.run(new DataFrame(foldInstances.testInstance));
-
-
+            
+            result.addConfusionMatrix(this.model.getConfusionMatrix());
             result.addFold(this.model.correct(), endIndex - startIndex);
             index = endIndex;
         }
 
          
         return result.toString();
+    }
+    
+    public Integer[][] getConfusionMatrix() {
+        return result.confMatrix;
+    }
+    
+    public ArrayList<String> getTargetValues() {
+        return result.targetValues;
     }
 }

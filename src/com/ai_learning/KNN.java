@@ -232,6 +232,10 @@ public class KNN implements Model{
         return confusionMatrix;
     }
 
+    public ArrayList<String> getTargetValues() {
+         return targetValues;
+     }
+    
     public void printConfusionMatrix() {
         for (int i = 0; i < confusionMatrix.length; i++) {
             for (int j = 0; j < confusionMatrix.length; j++) {
