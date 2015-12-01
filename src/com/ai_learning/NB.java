@@ -216,6 +216,9 @@ public class NB implements Model {
             System.out.println();
         }
     }
+    public ArrayList<String> getTargetValues() {
+         return targetValues;
+     }
 
     public void printClassFrequencies() {
         int i, j, k;
