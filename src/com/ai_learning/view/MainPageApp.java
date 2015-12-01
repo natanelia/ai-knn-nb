@@ -13,6 +13,7 @@ import com.ai_learning.data.Instance;
 import com.ai_learning.data.parser.Parser;
 import java.awt.CardLayout;
 import java.awt.Component;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JComboBox;
@@ -54,14 +55,9 @@ public class MainPageApp extends javax.swing.JFrame {
         KNN = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         KS = new javax.swing.JSpinner();
-        jLabel4 = new javax.swing.JLabel();
-        result = new javax.swing.JTextField();
         NB = new javax.swing.JPanel();
         classname = new javax.swing.JLabel();
         resultNB = new javax.swing.JTextField();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         train = new javax.swing.JTextField();
@@ -69,13 +65,17 @@ public class MainPageApp extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableInput = new javax.swing.JTable();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         bKNN = new javax.swing.JButton();
         bNB = new javax.swing.JButton();
-        method = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
         targetSP = new javax.swing.JSpinner();
         jButton2 = new javax.swing.JButton();
+        result = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -85,31 +85,16 @@ public class MainPageApp extends javax.swing.JFrame {
 
         jLabel3.setText("K");
 
-        jLabel4.setText("Class");
-
-        result.setEditable(false);
-        result.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                resultActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout KNNLayout = new javax.swing.GroupLayout(KNN);
         KNN.setLayout(KNNLayout);
         KNNLayout.setHorizontalGroup(
             KNNLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(KNNLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(KNNLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(KNNLayout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
-                        .addComponent(KS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(KNNLayout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(result, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addComponent(KS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(199, Short.MAX_VALUE))
         );
         KNNLayout.setVerticalGroup(
             KNNLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -118,11 +103,7 @@ public class MainPageApp extends javax.swing.JFrame {
                 .addGroup(KNNLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(KS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                .addGroup(KNNLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(result, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         Card.add(KNN, "KNN");
@@ -159,35 +140,6 @@ public class MainPageApp extends javax.swing.JFrame {
 
         Card.add(NB, "NB");
 
-        jPanel1.setBackground(new java.awt.Color(51, 51, 51));
-
-        jLabel6.setBackground(new java.awt.Color(207, 207, 207));
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/ai_learning/view/logo-weka-small-1.png"))); // NOI18N
-
-        jLabel8.setFont(new java.awt.Font("Ubuntu Medium", 0, 15)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(254, 207, 21));
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("WeKaWe");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel8))
-        );
-
         jPanel2.setBackground(new java.awt.Color(102, 102, 102));
 
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -199,6 +151,8 @@ public class MainPageApp extends javax.swing.JFrame {
             }
         });
 
+        open.setBackground(new java.awt.Color(102, 102, 102));
+        open.setForeground(new java.awt.Color(255, 255, 255));
         open.setText("Open..");
         open.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -206,6 +160,8 @@ public class MainPageApp extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setBackground(new java.awt.Color(102, 102, 102));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Input Data");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -222,12 +178,33 @@ public class MainPageApp extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tableInput);
 
+        jLabel6.setBackground(new java.awt.Color(207, 207, 207));
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/ai_learning/view/logo-weka-small-1.png"))); // NOI18N
+
+        jLabel8.setFont(new java.awt.Font("Ubuntu Medium", 0, 15)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(254, 207, 21));
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/ai_learning/view/We-KaWe_yellow.png"))); // NOI18N
+
+        jButton3.setText("Switch App");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                        .addComponent(jLabel8)
+                        .addComponent(jLabel6))
+                    .addComponent(jButton3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -235,12 +212,9 @@ public class MainPageApp extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(train, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(open)))
+                        .addComponent(open))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(22, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -255,6 +229,14 @@ public class MainPageApp extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         bKNN.setText("KNN");
@@ -268,13 +250,6 @@ public class MainPageApp extends javax.swing.JFrame {
         bNB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bNBActionPerformed(evt);
-            }
-        });
-
-        method.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Full Training", "10 Fold" }));
-        method.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                methodActionPerformed(evt);
             }
         });
 
@@ -296,7 +271,6 @@ public class MainPageApp extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(bNB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(bKNN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(method, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -309,20 +283,27 @@ public class MainPageApp extends javax.swing.JFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(15, 15, 15)
                 .addComponent(bKNN)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bNB)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(method, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(targetSP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        result.setEditable(false);
+        result.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resultActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Class");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -332,25 +313,34 @@ public class MainPageApp extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Card, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Card, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(result, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(25, 25, 25)
-                            .addComponent(Card, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(15, 15, 15)
+                        .addComponent(Card, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(48, 48, 48)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(result, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -370,10 +360,6 @@ public class MainPageApp extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_openActionPerformed
 
-    private void methodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_methodActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_methodActionPerformed
-
     private void resultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_resultActionPerformed
@@ -381,45 +367,6 @@ public class MainPageApp extends javax.swing.JFrame {
     private void resultNBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultNBActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_resultNBActionPerformed
-
-    private void bKNNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bKNNActionPerformed
-        ((CardLayout)Card.getLayout()).show(Card, "KNN");
-        activeCard = CARD_KNN;
-    }//GEN-LAST:event_bKNNActionPerformed
-
-    private void bNBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNBActionPerformed
-        ((CardLayout)Card.getLayout()).show(Card, "NB");
-        activeCard = CARD_NB;
-    }//GEN-LAST:event_bNBActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        String algorithm = (activeCard == CARD_KNN) ? "knn" : "nb";
-        String data = train.getText();
-        int target = (int) targetSP.getValue() - 1;
-        int K = (int) KS.getValue();
-        Parser parser = new Parser(data, ",");
-        DataFrame trainDataFrame = parser.toDF();
-        
-        
-        TableModel model = tableInput.getModel();
-        int row = model.getRowCount();
-        ArrayList<String> Data = new ArrayList<String>();
-        for(int i=0;i<row;i++){
-            Data.add((String)model.getValueAt(i, 1));
-
-        }
-        Instance input = new Instance(Data);
-        
-        if(algorithm.equals("knn")){
-            KNN knn = new KNN(K, target);
-            knn.make(trainDataFrame);
-            result.setText(knn.knnAlgorithm(input));
-        }else{
-            NB nb = new NB(target);
-            nb.make(trainDataFrame);
-            resultNB.setText(nb.decideClass(input));
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Parser parser = new Parser(train.getText(), ",");
@@ -432,6 +379,51 @@ public class MainPageApp extends javax.swing.JFrame {
             //tableInput.add(item);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        String algorithm = (activeCard == CARD_KNN) ? "knn" : "nb";
+        String data = train.getText();
+        int target = (int) targetSP.getValue() - 1;
+        int K = (int) KS.getValue();
+        Parser parser = new Parser(data, ",");
+        DataFrame trainDataFrame = parser.toDF();
+
+        TableModel model = tableInput.getModel();
+        int row = model.getRowCount();
+        ArrayList<String> Data = new ArrayList<String>();
+        for(int i=0;i<row;i++){
+            Data.add((String)model.getValueAt(i, 1));
+
+        }
+        Instance input = new Instance(Data);
+
+        if(algorithm.equals("knn")){
+            KNN knn = new KNN(K, target);
+            knn.make(trainDataFrame);
+            result.setText(knn.knnAlgorithm(input));
+        }else{
+            NB nb = new NB(target);
+            nb.make(trainDataFrame);
+            resultNB.setText(nb.decideClass(input));
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void bNBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNBActionPerformed
+        ((CardLayout)Card.getLayout()).show(Card, "NB");
+        activeCard = CARD_NB;
+    }//GEN-LAST:event_bNBActionPerformed
+
+    private void bKNNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bKNNActionPerformed
+        ((CardLayout)Card.getLayout()).show(Card, "KNN");
+        activeCard = CARD_KNN;
+    }//GEN-LAST:event_bKNNActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        //String[] args = {};
+        //MainPage.main(args);
+        //this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -479,17 +471,16 @@ public class MainPageApp extends javax.swing.JFrame {
     private javax.swing.JLabel classname;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JComboBox method;
     private javax.swing.JButton open;
     private javax.swing.JTextField result;
     private javax.swing.JTextField resultNB;

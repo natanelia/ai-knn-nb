@@ -116,7 +116,6 @@ public class MainPage extends javax.swing.JFrame {
         taKNN = new javax.swing.JTextArea();
         spnK = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
         panelNB = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         taNB = new javax.swing.JTextArea();
@@ -180,7 +179,7 @@ public class MainPage extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Ubuntu Medium", 0, 15)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(254, 207, 21));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("WeKaWe");
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/ai_learning/view/We-KaWe_yellow.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -227,7 +226,7 @@ public class MainPage extends javax.swing.JFrame {
                         .addGap(26, 26, 26)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmbType, 0, 108, Short.MAX_VALUE))
+                        .addComponent(cmbType, 0, 216, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtTrainFile)
@@ -237,7 +236,7 @@ public class MainPage extends javax.swing.JFrame {
                             .addComponent(btnOpenFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnOpenTest, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSubmit)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -346,12 +345,7 @@ public class MainPage extends javax.swing.JFrame {
         jScrollPane1.setViewportView(taKNN);
 
         jLabel1.setForeground(new java.awt.Color(254, 254, 254));
-        jLabel1.setText("with K =");
-
-        jLabel12.setFont(new java.awt.Font("Ubuntu", 1, 17)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(254, 207, 21));
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel12.setText("K-NN");
+        jLabel1.setText("KNN with K =");
 
         javax.swing.GroupLayout panelKNNLayout = new javax.swing.GroupLayout(panelKNN);
         panelKNN.setLayout(panelKNNLayout);
@@ -361,8 +355,6 @@ public class MainPage extends javax.swing.JFrame {
                 .addGroup(panelKNNLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelKNNLayout.createSequentialGroup()
                         .addGap(16, 16, 16)
-                        .addComponent(jLabel12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel1)
                         .addGap(4, 4, 4)
                         .addComponent(spnK, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -370,21 +362,20 @@ public class MainPage extends javax.swing.JFrame {
                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelKNNLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelKNNLayout.setVerticalGroup(
             panelKNNLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelKNNLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
+                .addGap(16, 16, 16)
                 .addGroup(panelKNNLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(spnK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
-                .addGap(20, 20, 20))
+                    .addComponent(jLabel10))
+                .addGap(10, 10, 10)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         card.add(panelKNN, "panelKNN");
@@ -414,7 +405,7 @@ public class MainPage extends javax.swing.JFrame {
             .addGroup(panelNBLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelNBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE)
                     .addGroup(panelNBLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -430,8 +421,8 @@ public class MainPage extends javax.swing.JFrame {
                     .addComponent(jLabel9)
                     .addComponent(jLabel11))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
-                .addGap(20, 20, 20))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         card.add(panelNB, "panelNB");
@@ -574,7 +565,6 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
