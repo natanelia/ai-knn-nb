@@ -143,37 +143,41 @@ public class NB implements Model {
         System.out.println(attributeValues);
         System.out.println(attributeProbabilities);*/
     }
+    
+    public String decideClass(Instance instance) {
+        Double[] probability = new Double[targetValues.size()];
+        for (int j = 0; j < probability.length; j++) {
+            probability[j] = 1.0d;
+            int i = 0;
+            for (final String columnAttributes : instance) {
+                if (i != targetColumnNumber) {
+                    probability[j] *= attributeProbabilities.get(i).get(
+                                attributeValues.get(i).indexOf(columnAttributes)
+                            ).get(j);
+                }
+                i++;
+            }
+            probability[j] *= targetProbabilities.get(j);
+        }
+
+        Integer idMaxProb = 0;
+        Double maxProb = probability[0];
+        for (int i = 1; i < probability.length; i++) {
+            if (maxProb < probability[i]) {
+                maxProb = probability[i];
+                idMaxProb = i;
+            }
+        }
+        return targetValues.get(idMaxProb);
+    }
 
     @Override
     public void run(DataFrame testSet) {
         test = new DataFrame(testSet);
         testResult = new DataFrame(testSet);
         
-        Double[] probability = new Double[targetValues.size()];
         for (final Instance instance : testResult) {
-            for (int j = 0; j < probability.length; j++) {
-                probability[j] = 1.0d;
-                int i = 0;
-                for (final String columnAttributes : instance) {
-                    if (i != targetColumnNumber) {
-                        probability[j] *= attributeProbabilities.get(i).get(
-                                    attributeValues.get(i).indexOf(columnAttributes)
-                                ).get(j);
-                    }
-                    i++;
-                }
-                probability[j] *= targetProbabilities.get(j);
-            }
-            
-            Integer idMaxProb = 0;
-            Double maxProb = probability[0];
-            for (int i = 1; i < probability.length; i++) {
-                if (maxProb < probability[i]) {
-                    maxProb = probability[i];
-                    idMaxProb = i;
-                }
-            }
-            instance.setField(targetColumnNumber, targetValues.get(idMaxProb));
+            instance.setField(targetColumnNumber, decideClass(instance));
         }
         createConfusionMatrix();
       

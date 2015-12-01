@@ -120,6 +120,7 @@ public class MainPage extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         taNB = new javax.swing.JTextArea();
         jLabel9 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("WeKaWe");
@@ -339,7 +340,7 @@ public class MainPage extends javax.swing.JFrame {
 
         taKNN.setBackground(new java.awt.Color(1, 1, 1));
         taKNN.setColumns(20);
-        taKNN.setForeground(new java.awt.Color(187, 187, 187));
+        taKNN.setForeground(new java.awt.Color(254, 207, 21));
         taKNN.setRows(5);
         jScrollPane1.setViewportView(taKNN);
 
@@ -383,7 +384,7 @@ public class MainPage extends javax.swing.JFrame {
 
         taNB.setBackground(new java.awt.Color(1, 1, 1));
         taNB.setColumns(20);
-        taNB.setForeground(new java.awt.Color(187, 187, 187));
+        taNB.setForeground(new java.awt.Color(254, 207, 21));
         taNB.setRows(5);
         jScrollPane3.setViewportView(taNB);
 
@@ -391,6 +392,11 @@ public class MainPage extends javax.swing.JFrame {
         jLabel9.setForeground(new java.awt.Color(254, 207, 21));
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel9.setText("Result:");
+
+        jLabel11.setFont(new java.awt.Font("Ubuntu", 1, 17)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(254, 207, 21));
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel11.setText("Naive Bayes");
 
         javax.swing.GroupLayout panelNBLayout = new javax.swing.GroupLayout(panelNB);
         panelNB.setLayout(panelNBLayout);
@@ -401,7 +407,9 @@ public class MainPage extends javax.swing.JFrame {
                 .addGroup(panelNBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
                     .addGroup(panelNBLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -409,7 +417,9 @@ public class MainPage extends javax.swing.JFrame {
             panelNBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelNBLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel9)
+                .addGroup(panelNBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel11))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
                 .addContainerGap())
@@ -441,6 +451,7 @@ public class MainPage extends javax.swing.JFrame {
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fcTest.getSelectedFile();
             txtTestFile.setText(selectedFile.getAbsolutePath());
+            fcTrain.setCurrentDirectory(fcTest.getCurrentDirectory());
         }
     }//GEN-LAST:event_btnOpenTestActionPerformed
 
@@ -448,9 +459,10 @@ public class MainPage extends javax.swing.JFrame {
         taKNN.setText("");
         taNB.setText("");
         String algorithm = (activeCard == CARD_KNN) ? "knn" : "nb";
+        System.out.println("ALGORITHM = " + algorithm);
         String trainFile = txtTrainFile.getText();
         String testFile = txtTestFile.getText();
-        int target = (int) spnTarget.getValue();
+        int target = ((int) spnTarget.getValue()) - 1;
         int k = (int) spnK.getValue();
         method = (String) cmbType.getSelectedItem();
         //PrintStream printStream = new PrintStream(new CustomOutputStream(taKNN));
@@ -465,7 +477,8 @@ public class MainPage extends javax.swing.JFrame {
                 taKNN.append("\n\n\nConfusion Matrix : \n\n");
                 printMatrix(taKNN,app.getConfusionMatrix(),app.getTargetValues());
             } catch (IndexOutOfBoundsException e) {
-                taKNN.append("ERROR : Defined Target Column Index is out of bound");
+                taKNN.append("ERROR : Defined Target Column Index or K of K-NN is out of bound.");
+                e.printStackTrace();
             }
 
         }
@@ -480,7 +493,8 @@ public class MainPage extends javax.swing.JFrame {
                 taNB.append("\n\n\nConfusion Matrix : \n\n");
                 printMatrix(taNB,app.getConfusionMatrix(),app.getTargetValues());
             } catch (IndexOutOfBoundsException e) {
-                taNB.append("ERROR : Defined Target Column Index is out of bound");
+                taNB.append("ERROR : Defined Target Column Index is out of bound.");
+                e.printStackTrace();
             }
         }
 
@@ -499,7 +513,7 @@ public class MainPage extends javax.swing.JFrame {
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fcTrain.getSelectedFile();
             txtTrainFile.setText(selectedFile.getAbsolutePath());
-
+            fcTest.setCurrentDirectory(fcTrain.getCurrentDirectory());
         }
     }//GEN-LAST:event_btnOpenFileActionPerformed
 
@@ -558,6 +572,7 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JFileChooser fcTrain;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

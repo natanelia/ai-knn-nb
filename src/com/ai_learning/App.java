@@ -42,7 +42,7 @@ public class App {
         switch (algorithm) {
             case "nb": {
                 if(method.equals("Full Training")) {
-                    NB nb = new NB(targetAttributeColumn-1);
+                    NB nb = new NB(targetAttributeColumn);
                     nb.make(trainDataFrame);
                     nb.run(testDataFrame);
                     correct = nb.correct();
@@ -52,12 +52,13 @@ public class App {
                 }
                 else {
                     System.out.println("10 Fold");
-                    NB nb = new NB(targetAttributeColumn-1);
+                    NB nb = new NB(targetAttributeColumn);
                     CrossValidator cv = new CrossValidator(10, trainDataFrame, nb);
                     System.out.println(cv.validate());
                     confusionMatrix = cv.getConfusionMatrix();
                     targetValues = cv.getTargetValues();
                 }
+                break;
             }
             //KNN
             case "knn": {
@@ -75,8 +76,8 @@ public class App {
                     System.out.println("10 Fold");
                     CrossValidator cv = new CrossValidator(10, trainDataFrame, knn);
                     System.out.println(cv.validate());
-                   
-                }      
+                }
+                break;
             }
         }
     }
