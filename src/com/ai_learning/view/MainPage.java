@@ -476,35 +476,27 @@ public class MainPage extends javax.swing.JFrame {
         method = (String) cmbType.getSelectedItem();
         //PrintStream printStream = new PrintStream(new CustomOutputStream(taKNN));
 
-        if(algorithm.equals("knn")){
-            try {
-                App app = new App();
-                app.run(algorithm, trainFile, testFile, k, method);
-                taKNN.append("Relation Name : " + app.getRelationName());
-                taKNN.append("\nInstances : " + app.getInstances());
-                taKNN.append("\nCorrect : " + app.getCorrect());
-                taKNN.append("\n\n\nConfusion Matrix : \n\n");
-                printMatrix(taKNN,app.getConfusionMatrix(),app.getTargetValues());
-            } catch (IndexOutOfBoundsException e) {
-                taKNN.append("ERROR : Defined Target Column Index or K of K-NN is out of bound.");
-                e.printStackTrace();
-            }
-
-        }
-
+          if(algorithm.equals("knn")){
+            App app = new App();
+            app.run(algorithm, trainFile, testFile, target, method, k);
+            taKNN.append("Relation Name : " + app.getRelationName());
+            taKNN.append("\nInstances : " + app.getInstances());
+            taKNN.append("\nCorrect : " + app.getCorrect());
+            taKNN.append("\n\n\nConfusion Matrix : \n\n");
+            printMatrix(taKNN,app.getConfusionMatrix(),app.getTargetValues());
+         
+            
+        }   
         else {
-            try {
-                App app = new App();
-                app.run(algorithm, trainFile, testFile, target, method);
-                taNB.append("Relation Name : " + app.getRelationName());
-                taNB.append("\nInstances : " + app.getInstances());
-                taNB.append("\nCorrect : " + app.getCorrect());
-                taNB.append("\n\n\nConfusion Matrix : \n\n");
-                printMatrix(taNB,app.getConfusionMatrix(),app.getTargetValues());
-            } catch (IndexOutOfBoundsException e) {
-                taNB.append("ERROR : Defined Target Column Index is out of bound.");
-                e.printStackTrace();
-            }
+            App app = new App();
+            System.out.println(algorithm);
+            app.run(algorithm, trainFile, testFile, target, method, 0);
+            taNB.append("Relation Name : " + app.getRelationName());
+            taNB.append("\nInstances : " + app.getInstances());
+            taNB.append("\nCorrect : " + app.getCorrect());
+            taNB.append("\n\n\nConfusion Matrix : \n\n");
+            printMatrix(taNB,app.getConfusionMatrix(),app.getTargetValues());
+         
         }
 
         //standardOut = System.out;

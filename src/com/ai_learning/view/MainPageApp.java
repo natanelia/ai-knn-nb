@@ -57,8 +57,8 @@ public class MainPageApp extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         result = new javax.swing.JTextField();
         NB = new javax.swing.JPanel();
-        resultNB = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        classname = new javax.swing.JLabel();
+        resultNB = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -127,12 +127,12 @@ public class MainPageApp extends javax.swing.JFrame {
 
         Card.add(KNN, "KNN");
 
-        resultNB.setText("Class");
+        classname.setText("Class");
 
-        jTextField3.setEditable(false);
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        resultNB.setEditable(false);
+        resultNB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                resultNBActionPerformed(evt);
             }
         });
 
@@ -142,9 +142,9 @@ public class MainPageApp extends javax.swing.JFrame {
             NBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(NBLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(resultNB)
+                .addComponent(classname)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(resultNB, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(70, Short.MAX_VALUE))
         );
         NBLayout.setVerticalGroup(
@@ -152,8 +152,8 @@ public class MainPageApp extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NBLayout.createSequentialGroup()
                 .addContainerGap(51, Short.MAX_VALUE)
                 .addGroup(NBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(resultNB)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(classname)
+                    .addComponent(resultNB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29))
         );
 
@@ -378,9 +378,9 @@ public class MainPageApp extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_resultActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void resultNBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultNBActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_resultNBActionPerformed
 
     private void bKNNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bKNNActionPerformed
         ((CardLayout)Card.getLayout()).show(Card, "KNN");
@@ -411,7 +411,7 @@ public class MainPageApp extends javax.swing.JFrame {
         Instance input = new Instance(Data);
         
         if(algorithm.equals("knn")){
-            KNN knn = new KNN(K);
+            KNN knn = new KNN(K, target);
             knn.make(trainDataFrame);
             result.setText(knn.knnAlgorithm(input));
         }else{
@@ -476,6 +476,7 @@ public class MainPageApp extends javax.swing.JFrame {
     private javax.swing.JPanel NB;
     private javax.swing.JButton bKNN;
     private javax.swing.JButton bNB;
+    private javax.swing.JLabel classname;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -488,11 +489,10 @@ public class MainPageApp extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JComboBox method;
     private javax.swing.JButton open;
     private javax.swing.JTextField result;
-    private javax.swing.JLabel resultNB;
+    private javax.swing.JTextField resultNB;
     private javax.swing.JTable tableInput;
     private javax.swing.JSpinner targetSP;
     private javax.swing.JTextField train;

@@ -10,12 +10,18 @@ import com.ai_learning.model.*;
 import com.ai_learning.data.*;
 
 public final class CrossValidator {
+
+    public int correct() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     public class Result {
         private ArrayList<Double> accuracies;
         private ArrayList<String> targetValues;
         private Integer[][] confMatrix;
         private int size;
         private int attrSize;
+        public int correct;
+        
         public Result(int size, int attrSize) {
             this.accuracies = new ArrayList<>();
             this.confMatrix = new Integer[attrSize][attrSize];
@@ -45,6 +51,7 @@ public final class CrossValidator {
         public void addFold(int correct, int size) {
             double accuracy = (double)correct / (double)size;
             this.accuracies.add(accuracy);
+            
         }
         
         public void addConfusionMatrix(Integer[][] confMatrix) {
@@ -79,13 +86,14 @@ public final class CrossValidator {
             
             for (int i = 0; i < attrSize; i++) {
                 for (int j = 0; j < attrSize; j++) {
-                    System.out.printf("%4d ", confMatrix[i][j]);
+                    stringWriter.write(confMatrix[i][j]);
                 }
-                System.out.println(" > should be " + this.targetValues.get(i));
+                //System.out.println(" > should be " + this.targetValues.get(i));
             }
             
             return stringWriter.toString();
         }
+        
     }
 
     public class Fold {
@@ -164,6 +172,7 @@ public final class CrossValidator {
         
         result = new Result(dataSize, attributeSize);
         result.setTargetValues(dataset);
+        result.correct=0;
         //Integer[][] confMatrix = new Integer[attributeSize][attributeSize];
         while (index < dataSize) {
             int startIndex = index, endIndex = index + partitionSize;
@@ -178,9 +187,10 @@ public final class CrossValidator {
             this.model.make(new DataFrame(foldInstances.trainingInstance));
             /* Run model with test dataset and then add result to statistic */
             this.model.run(new DataFrame(foldInstances.testInstance));
-            
+            result.correct += this.model.correct();
             result.addConfusionMatrix(this.model.getConfusionMatrix());
             result.addFold(this.model.correct(), endIndex - startIndex);
+            
             index = endIndex;
         }
 
@@ -194,5 +204,9 @@ public final class CrossValidator {
     
     public ArrayList<String> getTargetValues() {
         return result.targetValues;
+    }
+    
+    public int getCorrect() {
+        return result.correct;
     }
 }

@@ -18,13 +18,15 @@ public class KNN implements Model{
 	private DataFrame resultTest;
         private ArrayList<String> targetValues;
         private Integer[][] confusionMatrix;
+        private int targetColumnNumber;
 	private int k;
 	String result;
 
 	/*** KONSTRUKTOR ***/
 
-	public KNN(int k) {
+	public KNN(int k, int target) {
 		setK(k);
+                setTargetColumnNumber(target);
 	}
 
 	@Override
@@ -42,7 +44,7 @@ public class KNN implements Model{
 		for(int i=0; i<resultTest.size(); i++) {
 			Instance instance = resultTest.getInstance(i);
 			//System.out.println("Cluster =" + knnAlgorithm(instance));
-			instance.setField(instance.size()-1,knnAlgorithm(instance));
+			instance.setField(targetColumnNumber,knnAlgorithm(instance));
 		}
                 createConfusionMatrix();
                 System.out.println("CORRECT: " + correct());
@@ -52,8 +54,8 @@ public class KNN implements Model{
 	@Override 
 	public int correct() {
 		int count =0;
-		Instance result = resultTest.col(resultTest.getInstance(0).size()-1);
-		Instance fact = test.col(test.getInstance(0).size()-1);
+		Instance result = resultTest.col(targetColumnNumber);
+		Instance fact = test.col(targetColumnNumber);
 		for(int i=0; i <result.size(); i++){
 			String tempResult = result.getField(i).replace(" ","");
 			String tempFact = fact.getField(i).replace(" ","");
@@ -76,8 +78,8 @@ public class KNN implements Model{
 
         for (Instance instance : train) {
         
-                if (!targetValues.contains(instance.getField(instance.size()-1))) {
-                targetValues.add(instance.getField(instance.size()-1));
+                if (!targetValues.contains(instance.getField(targetColumnNumber))) {
+                targetValues.add(instance.getField(targetColumnNumber));
                 }
                 
         	for(int i=0; i<instance.size()-1; i++){
@@ -90,7 +92,7 @@ public class KNN implements Model{
         	//masukkan ke dalam temp
         	ArrayList<String> temp = new ArrayList<String>(2);
 			temp.add(0, Integer.toString(difference));
-			temp.add(1, instance.getField(instance.size()-1));
+			temp.add(1, instance.getField(targetColumnNumber));
 
 			//masukin dulu ke dalam neighbors
 			if(neighbors.size()<k) {
@@ -202,6 +204,11 @@ public class KNN implements Model{
 		this.k = k;
 	}
 
+        public void setTargetColumnNumber(int target)
+        {
+            this.targetColumnNumber = target;
+        }
+        
 	public void setTrain(DataFrame train) {
 		this.train = train;
 	}
@@ -219,9 +226,8 @@ public class KNN implements Model{
                 }
             }
             for (int i = 0; i < test.size(); i++) {
-                int col = test.getInstance(i).size()-1;
-                int idxTest = targetValues.indexOf(test.getInstance(i).getField(col));
-                int idxTestResult = targetValues.indexOf(resultTest.getInstance(i).getField(col));
+                int idxTest = targetValues.indexOf(test.getInstance(i).getField(targetColumnNumber));
+                int idxTestResult = targetValues.indexOf(resultTest.getInstance(i).getField(targetColumnNumber));
                 confusionMatrix[idxTest][idxTestResult] += 1;
             }
   
@@ -231,11 +237,11 @@ public class KNN implements Model{
     public Integer[][] getConfusionMatrix() {
         return confusionMatrix;
     }
-
-    public ArrayList<String> getTargetValues() {
+    
+     public ArrayList<String> getTargetValues() {
          return targetValues;
      }
-    
+
     public void printConfusionMatrix() {
         for (int i = 0; i < confusionMatrix.length; i++) {
             for (int j = 0; j < confusionMatrix.length; j++) {

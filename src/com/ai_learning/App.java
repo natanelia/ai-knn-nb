@@ -16,6 +16,7 @@ public class App {
     private Integer[][] confusionMatrix;
     private int correct;
     private ArrayList<String> targetValues;
+
     
     public void run() {
         Parser parser = new Parser("car.data", ",");
@@ -29,7 +30,7 @@ public class App {
         }
     }
     
-     public void run(String algorithm, String trainFile, String testFile, int targetAttributeColumn, String method) {
+     public void run(String algorithm, String trainFile, String testFile, int targetAttributeColumn, String method, int k) {
         Parser trainParser = new Parser(trainFile, ",");
         DataFrame trainDataFrame = trainParser.toDF(targetAttributeColumn);
         
@@ -42,7 +43,7 @@ public class App {
         switch (algorithm) {
             case "nb": {
                 if(method.equals("Full Training")) {
-                    NB nb = new NB(targetAttributeColumn);
+                    NB nb = new NB(targetAttributeColumn-1);
                     nb.make(trainDataFrame);
                     nb.run(testDataFrame);
                     correct = nb.correct();
@@ -52,17 +53,18 @@ public class App {
                 }
                 else {
                     System.out.println("10 Fold");
-                    NB nb = new NB(targetAttributeColumn);
+                    NB nb = new NB(targetAttributeColumn-1);
                     CrossValidator cv = new CrossValidator(10, trainDataFrame, nb);
                     System.out.println(cv.validate());
                     confusionMatrix = cv.getConfusionMatrix();
                     targetValues = cv.getTargetValues();
-                }
-                break;
+                    correct = cv.getCorrect();
+                }   
             }
+            break;
             //KNN
             case "knn": {
-                KNN knn = new KNN(targetAttributeColumn);
+                KNN knn = new KNN(k, targetAttributeColumn-1);
                 
                 if(method.equals("Full Training")) {
                     knn.make(trainDataFrame);
@@ -76,8 +78,8 @@ public class App {
                     System.out.println("10 Fold");
                     CrossValidator cv = new CrossValidator(10, trainDataFrame, knn);
                     System.out.println(cv.validate());
-                }
-                break;
+                   
+                }      
             }
         }
     }
