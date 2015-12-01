@@ -67,7 +67,7 @@ public class Parser {
         return new DataFrame(dataset, relationName, attributeKnowledges);
     }
     public DataFrame toDF(int classIndex) {
-        return new DataFrame(dataset, classIndex);
+        return new DataFrame(dataset, relationName, attributeKnowledges, classIndex);
     }
     
     

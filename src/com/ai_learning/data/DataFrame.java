@@ -33,8 +33,14 @@ public class DataFrame implements Iterable<Instance> {
         }
     }
 
-    public DataFrame(ArrayList<Instance> dataset, int classIndex) {
+    public DataFrame(ArrayList<Instance> dataset, String relationName, ArrayList<AttributeKnowledge> attributes, int classIndex) {
         this.data = new ArrayList<>();
+        this.relationName = relationName;
+        
+        for (final AttributeKnowledge ak : attributes) {
+            this.attributes.add(ak);
+        }
+        
         for (final Instance instance : dataset) {
             this.data.add(new Instance(instance));
         }

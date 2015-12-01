@@ -169,7 +169,7 @@ public final class CrossValidator {
 
         int index = 0;
         int attributeSize = dataset.getAttributes().size();
-        
+        System.out.println(dataset.getRelationName());
         result = new Result(dataSize, attributeSize);
         result.setTargetValues(dataset);
         result.correct=0;

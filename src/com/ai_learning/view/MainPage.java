@@ -471,7 +471,7 @@ public class MainPage extends javax.swing.JFrame {
         System.out.println("ALGORITHM = " + algorithm);
         String trainFile = txtTrainFile.getText();
         String testFile = txtTestFile.getText();
-        int target = ((int) spnTarget.getValue()) - 1;
+        int target = ((int) spnTarget.getValue());
         int k = (int) spnK.getValue();
         method = (String) cmbType.getSelectedItem();
         //PrintStream printStream = new PrintStream(new CustomOutputStream(taKNN));

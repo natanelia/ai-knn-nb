@@ -78,7 +78,9 @@ public class App {
                     System.out.println("10 Fold");
                     CrossValidator cv = new CrossValidator(10, trainDataFrame, knn);
                     System.out.println(cv.validate());
-                   
+                    confusionMatrix = cv.getConfusionMatrix();
+                    targetValues = cv.getTargetValues();
+                    correct = cv.getCorrect();
                 }      
             }
         }
