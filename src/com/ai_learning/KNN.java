@@ -18,8 +18,10 @@ public class KNN implements Model{
 	private DataFrame resultTest;
         private ArrayList<String> targetValues;
         private Integer[][] confusionMatrix;
+        private ArrayList<Double> numericRanges;
         private int targetColumnNumber;
 	private int k;
+        private final double numericThreshold = 0.05;
 	String result;
 
 	/*** KONSTRUKTOR ***/
@@ -31,9 +33,30 @@ public class KNN implements Model{
 
 	@Override
 	public void make(final DataFrame dataset) {
+                this.numericRanges = new ArrayList<>();
 		train = new DataFrame(dataset); 
                 targetValues = new ArrayList<String>();
-
+                for (int i = 0; i < train.row(0).size(); ++i) {
+                    if (train.getAttributes().get(i).isNumeric()) {
+                        Instance column = train.col(i);
+                        double max = 0.0, min = 0.0;
+                        boolean first = true;
+                        for (String value: column) {
+                            double dvalue = Double.parseDouble(value);
+                            if (first) {
+                                max = dvalue;
+                                min = dvalue;
+                                first = false;
+                            }
+                            else {
+                                max = Math.max(max, dvalue);
+                                min = Math.min(min, dvalue);
+                            }
+                        }
+                        Double range = max - min;
+                        this.numericRanges.add(range);
+                    }
+                }
 	}
 
 	@Override
@@ -82,11 +105,22 @@ public class KNN implements Model{
                 targetValues.add(instance.getField(targetColumnNumber));
                 }
                 
+                int rangeIndex = 0;
         	for(int i=0; i<instance.size()-1; i++){
-        		String field = instance.getField(i);
+                    if (train.getAttributes().get(i).isNumeric()) {
+        		double trainValue = Double.parseDouble(instance.getField(i));
+                        double checkValue = Double.parseDouble(check.getField(i));
+                        if (Math.abs(trainValue - checkValue) / this.numericRanges.get(rangeIndex) > this.numericThreshold) {
+                            ++difference;
+                        }
+                        ++rangeIndex;
+                    }
+                    else {
+                        String field = instance.getField(i);
         		if(!field.equals(check.getField(i))){
         			difference++;
         		}
+                    }
         	}
 
         	//masukkan ke dalam temp
