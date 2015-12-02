@@ -9,13 +9,19 @@ import com.ai_learning.App;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 
 /**
  *
@@ -90,6 +96,7 @@ public class MainPage extends javax.swing.JFrame {
 
         fcTrain = new javax.swing.JFileChooser();
         fcTest = new javax.swing.JFileChooser();
+        fcSave = new javax.swing.JFileChooser();
         jPanel1 = new javax.swing.JPanel();
         txtTrainFile = new javax.swing.JTextField();
         btnOpenFile = new javax.swing.JButton();
@@ -109,6 +116,7 @@ public class MainPage extends javax.swing.JFrame {
         btnNB = new javax.swing.JButton();
         btnKNN = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        btnClassifier = new javax.swing.JButton();
         card = new javax.swing.JPanel();
         panelKNN = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
@@ -116,11 +124,17 @@ public class MainPage extends javax.swing.JFrame {
         taKNN = new javax.swing.JTextArea();
         spnK = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
+        btnSaveKNN = new javax.swing.JButton();
         panelNB = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         taNB = new javax.swing.JTextArea();
         jLabel9 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
+        btnSaveNB = new javax.swing.JButton();
+
+        fcSave.setDialogType(javax.swing.JFileChooser.SAVE_DIALOG);
+        fcSave.setApproveButtonText("Save");
+        fcSave.setDialogTitle("Save file to...");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("WeKaWe");
@@ -302,17 +316,25 @@ public class MainPage extends javax.swing.JFrame {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Algorithm");
 
+        btnClassifier.setBackground(new java.awt.Color(255, 187, 0));
+        btnClassifier.setText("Classifier");
+        btnClassifier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClassifierActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(btnKNN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnNB, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)))
+                    .addComponent(btnKNN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnNB, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+                    .addComponent(btnClassifier, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -324,7 +346,9 @@ public class MainPage extends javax.swing.JFrame {
                 .addComponent(btnKNN, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnNB, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(135, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 124, Short.MAX_VALUE)
+                .addComponent(btnClassifier)
+                .addContainerGap())
         );
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.LINE_START);
@@ -347,6 +371,13 @@ public class MainPage extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(254, 254, 254));
         jLabel1.setText("KNN with K =");
 
+        btnSaveKNN.setText("Save...");
+        btnSaveKNN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveKNNActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelKNNLayout = new javax.swing.GroupLayout(panelKNN);
         panelKNN.setLayout(panelKNNLayout);
         panelKNNLayout.setHorizontalGroup(
@@ -362,7 +393,10 @@ public class MainPage extends javax.swing.JFrame {
                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelKNNLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 504, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelKNNLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSaveKNN, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         panelKNNLayout.setVerticalGroup(
@@ -373,8 +407,10 @@ public class MainPage extends javax.swing.JFrame {
                     .addComponent(spnK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel10))
-                .addGap(10, 10, 10)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                .addGap(9, 9, 9)
+                .addComponent(btnSaveKNN)
                 .addContainerGap())
         );
 
@@ -398,6 +434,13 @@ public class MainPage extends javax.swing.JFrame {
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel11.setText("Naive Bayes");
 
+        btnSaveNB.setText("Save...");
+        btnSaveNB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveNBActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelNBLayout = new javax.swing.GroupLayout(panelNB);
         panelNB.setLayout(panelNBLayout);
         panelNBLayout.setHorizontalGroup(
@@ -405,12 +448,15 @@ public class MainPage extends javax.swing.JFrame {
             .addGroup(panelNBLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelNBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 504, Short.MAX_VALUE)
                     .addGroup(panelNBLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelNBLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnSaveNB, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         panelNBLayout.setVerticalGroup(
@@ -421,7 +467,9 @@ public class MainPage extends javax.swing.JFrame {
                     .addComponent(jLabel9)
                     .addComponent(jLabel11))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnSaveNB)
                 .addContainerGap())
         );
 
@@ -514,6 +562,42 @@ public class MainPage extends javax.swing.JFrame {
         spnTarget.setValue(1);
     }//GEN-LAST:event_formWindowOpened
 
+    private void btnClassifierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClassifierActionPerformed
+        MainPageApp mpa = new MainPageApp();
+        mpa.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        mpa.setVisible(true);
+    }//GEN-LAST:event_btnClassifierActionPerformed
+
+    private void btnSaveKNNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveKNNActionPerformed
+        if (fcSave.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            File saveFile = fcSave.getSelectedFile();
+            
+            PrintWriter writer;
+            try {
+                writer = new PrintWriter(saveFile);
+                writer.print(taKNN.getText());
+                writer.close();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnSaveKNNActionPerformed
+
+    private void btnSaveNBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveNBActionPerformed
+        if (fcSave.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            File saveFile = fcSave.getSelectedFile();
+            
+            PrintWriter writer;
+            try {
+                writer = new PrintWriter(saveFile);
+                writer.print(taNB.getText());
+                writer.close();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnSaveNBActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -553,13 +637,17 @@ public class MainPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnClassifier;
     private javax.swing.JButton btnKNN;
     private javax.swing.JButton btnNB;
     private javax.swing.JButton btnOpenFile;
     private javax.swing.JButton btnOpenTest;
+    private javax.swing.JButton btnSaveKNN;
+    private javax.swing.JButton btnSaveNB;
     private javax.swing.JButton btnSubmit;
     private javax.swing.JPanel card;
     private javax.swing.JComboBox<String> cmbType;
+    private javax.swing.JFileChooser fcSave;
     private javax.swing.JFileChooser fcTest;
     private javax.swing.JFileChooser fcTrain;
     private javax.swing.JLabel jLabel1;
