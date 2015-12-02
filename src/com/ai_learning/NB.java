@@ -20,6 +20,8 @@ public class NB implements Model {
     private DataFrame testResult;
     private int targetColumnNumber;
     
+    private final int partition = 5;
+    
     private ArrayList<ArrayList<ArrayList<Double>>> attributeFrequencies;
     private ArrayList<ArrayList<String>> attributeValues;
     
@@ -28,6 +30,20 @@ public class NB implements Model {
     
     private ArrayList<ArrayList<ArrayList<Double>>> attributeProbabilities;
     private ArrayList<Double> targetProbabilities;
+    
+    private ArrayList<AttrNormalizer> attrNormalizers;
+    
+    private class AttrNormalizer {
+        public int index;
+        public double range;
+        public double min;
+        
+        public AttrNormalizer(int index, double min, double range) {
+            this.index = index;
+            this.range = range;
+            this.min = min;
+        }
+    }
     
     private Integer[][] confusionMatrix;
 
@@ -52,15 +68,18 @@ public class NB implements Model {
          * This feat is done by normalizing attribute values
          * and then partition into some categories (label)
          */
+        this.attrNormalizers = new ArrayList<>();
 		for (int i = 0; i < train.getInstance(0).size(); ++i) {
 			if (train.getAttributes().get(i).isNumeric()) {
 				Instance col = train.col(i);
-				bool first = true;
+				boolean first = true;
 				double max = 0.0, min = 0.0;
 				for (String value: col) {
 					double dvalue = Double.parseDouble(value);
 					if (first) {
-						max = dvalue, min = dvalue;
+						max = dvalue;
+                                                min = dvalue;
+                                                first = false;
 					}
 					else {
 						max = Math.max(max, dvalue);
@@ -68,19 +87,19 @@ public class NB implements Model {
 					}
 				}
 				double range = max - min;
-				final int partition = 5;
 				for (int j = 0; j < col.size(); ++j) {
 					double dvalue = Double.parseDouble(col.getField(j));
 					// Normalize the value, divide by range
 					// normval will always between {0..1}
 					double normval = (dvalue - min) / range;
-					Integer index = Math.floor(normval * partition);
-					train.get(j).setField(i, index.toString());
+					Integer index = (int)Math.floor(normval * this.partition);
+					train.row(j).setField(i, index.toString());
 				}
+                                this.attrNormalizers.add(new AttrNormalizer(i, min, range));
 			}
 		}
-
-
+                
+                
 		//add empty columns to attributeValues
 		for (int i = 0; i < train.getInstance(0).size(); i++) {
 			attributeValues.add(new ArrayList<>());
@@ -203,9 +222,21 @@ public class NB implements Model {
 		}
 		return targetValues.get(idMaxProb);
 	}
-
+        
 	@Override
 	public void run(DataFrame testSet) {
+                for (AttrNormalizer normalizer: this.attrNormalizers) {
+                    for (int i = 0; i < testSet.size(); ++i) {
+                        int col = normalizer.index;
+                        double dvalue = Double.parseDouble(testSet.row(i).getField(col));
+                        double normval = (dvalue - normalizer.min) / normalizer.range;
+                        Integer index = (int)Math.floor(normval * this.partition);
+                        if (index < 0) index = 0;
+                        if (index > this.partition) index = partition;
+                        testSet.row(i).setField(col, index.toString());
+                    }
+                }
+                
 		test = new DataFrame(testSet);
 		testResult = new DataFrame(testSet);
 

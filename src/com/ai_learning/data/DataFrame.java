@@ -49,6 +49,8 @@ public class DataFrame implements Iterable<Instance> {
 
     public DataFrame(DataFrame dataset) {
         this.data = new ArrayList<>();
+        this.attributes = dataset.attributes;
+        this.relationName = dataset.relationName;
         for (final Instance instance : dataset) {
             this.data.add(new Instance(instance));
         }

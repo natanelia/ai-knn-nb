@@ -155,8 +155,10 @@ public final class CrossValidator {
                 trainingInstances.add(this.dataset.row(i));
             }
         }
-
-        Fold fold = new Fold(trainingInstances, testInstances);
+        
+        DataFrame trainDF = new DataFrame(trainingInstances, this.dataset.getRelationName(), this.dataset.getAttributes(), this.dataset.getClassIndex());
+        DataFrame testDF = new DataFrame(testInstances, this.dataset.getRelationName(), this.dataset.getAttributes(), this.dataset.getClassIndex());
+        Fold fold = new Fold(trainDF, testDF);
         return fold;
     }
     public final String validate() {

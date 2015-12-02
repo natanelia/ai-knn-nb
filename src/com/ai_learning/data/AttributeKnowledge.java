@@ -51,6 +51,6 @@ public class AttributeKnowledge {
     }
     
     public boolean isNumeric() {
-        return (this.type == "numeric");
+        return (this.type != "array");
     }
 }
