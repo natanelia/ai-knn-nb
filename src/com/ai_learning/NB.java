@@ -8,6 +8,9 @@ package com.ai_learning;
 import com.ai_learning.data.DataFrame;
 import com.ai_learning.data.Instance;
 import com.ai_learning.model.Model;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 /**
@@ -306,6 +309,27 @@ public class NB implements Model {
 			}
 			System.out.println();
 		}
+	}
+        
+        public void outputModel() throws FileNotFoundException, UnsupportedEncodingException {
+		int i, j, k;
+                PrintWriter out_file = new PrintWriter("Model.txt", "UTF-8");
+		for (i = 0; i < targetValues.size(); i++) {
+			out_file.println("Class " + targetValues.get(i));
+			j = 0;
+			for (ArrayList<String> attributes : attributeValues) {
+				k = 0;
+				for (String attributeValue : attributes) {
+					out_file.print("\t" + attributeValue);
+					out_file.println("\t\t" + attributeProbabilities.get(j).get(k).get(i)); // attr . attr val . target attr val
+					k++;
+				}
+				out_file.println();
+				j++;
+			}
+			out_file.println();
+		}
+                out_file.close();
 	}
 
 	public void printAccuracy() {

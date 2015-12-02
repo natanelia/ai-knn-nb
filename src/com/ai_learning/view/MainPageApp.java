@@ -15,7 +15,11 @@ import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
@@ -270,7 +274,7 @@ public class MainPageApp extends javax.swing.JFrame {
                     .addComponent(bKNN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(targetSP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(20, 20, 20))
         );
@@ -369,6 +373,13 @@ public class MainPageApp extends javax.swing.JFrame {
         }else{
             NB nb = new NB(target);
             nb.make(trainDataFrame);
+            try {
+                nb.outputModel();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(MainPageApp.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(MainPageApp.class.getName()).log(Level.SEVERE, null, ex);
+            }
             resultNB.setText(nb.decideClass(input));
         }
     }//GEN-LAST:event_jButton2ActionPerformed
